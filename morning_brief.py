@@ -292,7 +292,8 @@ Write in the exact style of The Daily Skimm newsletter. Use their signature lang
 - Zero corporate jargon. If it sounds like a press release, rewrite it.
 - Each summary should feel like a text from a smart friend who read the whole article so you don't have to.
 - Do NOT add any <br/> tags inside what_happened, why_it_matters, or what_to_do — spacing is handled by the template
-- You may use Skimm phrases naturally within the text but do not add line breaks around them
+- When you use these phrases, always wrap them in <strong> tags: "Here's the deal:" → <strong>Here's the deal:</strong> | "Why it matters:" → <strong>Why it matters:</strong> | "The bottom line:" → <strong>The bottom line:</strong>
+- No other phrases should be bolded
 
 Below are the latest articles. Return a JSON object with this EXACT structure:
 
