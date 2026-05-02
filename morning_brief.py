@@ -313,6 +313,7 @@ def generate_html(sources_with_articles: list[dict]) -> str:
 # ── Email Sending ─────────────────────────────────────────────────────────────
 
 def send_email(html: str) -> dict:
+    import time
     today = datetime.datetime.now().strftime("%A, %B %-d, %Y")
     payload = {
         "from": FROM_EMAIL,
@@ -321,22 +322,30 @@ def send_email(html: str) -> dict:
         "html": html
     }
     data = json.dumps(payload).encode()
-    req = urllib.request.Request(
-        "https://api.resend.com/emails",
-        data=data,
-        headers={
-            "Authorization": f"Bearer {RESEND_API_KEY}",
-            "Content-Type": "application/json"
-        },
-        method="POST"
-    )
-    try:
-        with urllib.request.urlopen(req) as resp:
-            return json.loads(resp.read().decode())
-    except urllib.error.HTTPError as e:
-        body = e.read().decode()
-        print(f"  ✗ Resend error {e.code}: {body}")
-        raise
+
+    last_err = None
+    for attempt in range(1, 4):
+        req = urllib.request.Request(
+            "https://api.resend.com/emails",
+            data=data,
+            headers={
+                "Authorization": f"Bearer {RESEND_API_KEY}",
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "User-Agent": "MorningBrief/1.0 (Python urllib)",
+            },
+            method="POST"
+        )
+        try:
+            with urllib.request.urlopen(req) as resp:
+                return json.loads(resp.read().decode())
+        except urllib.error.HTTPError as e:
+            body = e.read().decode()
+            print(f"  ✗ Attempt {attempt} — Resend error {e.code}: {body}")
+            last_err = e
+            if attempt < 3:
+                time.sleep(3)
+    raise last_err
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
