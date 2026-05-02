@@ -40,6 +40,26 @@ SOURCES = [
         "category": "crypto", "type": "rss"
     },
     {
+        "name": "NYT Technology", "author": "New York Times",
+        "feed": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+        "category": "tech", "type": "rss"
+    },
+    {
+        "name": "NYT Economy", "author": "New York Times",
+        "feed": "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml",
+        "category": "macro", "type": "rss"
+    },
+    {
+        "name": "Bloomberg Markets", "author": "Bloomberg",
+        "feed": "https://feeds.bloomberg.com/markets/news.rss",
+        "category": "macro", "type": "rss"
+    },
+    {
+        "name": "Bloomberg Technology", "author": "Bloomberg",
+        "feed": "https://feeds.bloomberg.com/technology/news.rss",
+        "category": "tech", "type": "rss"
+    },
+    {
         "name": "Reddit · r/artificial", "author": "Reddit",
         "feed": "artificial",
         "category": "tech", "type": "reddit"
@@ -275,7 +295,9 @@ Below are the latest articles from each source. Return a JSON object with this E
 
 STRICT RULES:
 - Use the EXACT title and EXACT URL from the list — never invent or alter them
-- Pick 1-2 articles per category for the main sections; remaining go in quick_links (3-4 total)
+- For each category section, include AT LEAST ONE article from a "Reddit ·" source (the trending community post) alongside 1 newsletter article
+- Reddit posts show what real people are talking about right now — always include them
+- Remaining articles go in quick_links (3-4 total)
 - Tone: always positive and forward-looking, never pessimistic
 - Return ONLY valid JSON — no markdown, no code fences, no explanations
 
