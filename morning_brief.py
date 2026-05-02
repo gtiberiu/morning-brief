@@ -141,10 +141,14 @@ ARTICLE_TEMPLATE = """
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px;">
         <tr>
           <td style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">{SOURCE}</td>
-          <td align="right"><span style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px;background:{CAT_BG};color:{CAT_COLOR};">{CATEGORY}</span></td>
+          <td align="right">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px;background:{CAT_BG};color:{CAT_COLOR};margin-right:4px;">{CATEGORY}</span>
+            <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:3px;background:{SENT_BG};color:{SENT_COLOR};">{SENT_ICON} {SENTIMENT}</span>
+          </td>
         </tr>
       </table>
       <a href="{URL}" style="display:block;font-size:24px;font-weight:800;color:#1a1a1a;text-decoration:none;line-height:1.2;margin-bottom:6px;">{TITLE}</a>
+      <div style="font-size:12px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:5px 10px;margin-bottom:8px;display:inline-block;">&#128202; {KEY_STAT}</div>
       <div style="font-size:14px;color:#555;line-height:1.65;margin-top:6px;">{SUMMARY}</div>
       <div style="margin-top:12px;background:#f9fafb;border-radius:6px;padding:10px 14px;font-size:13.5px;color:#1a1a1a;line-height:1.6;">
         <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563eb;margin-bottom:4px;">&#128161; Your takeaway</div>
@@ -164,6 +168,12 @@ CAT_STYLES = {
     "tech":   {"bg": "#dbeafe", "color": "#1d4ed8", "label": "Tech"},
     "macro":  {"bg": "#d1fae5", "color": "#065f46", "label": "Macro"},
     "crypto": {"bg": "#ede9fe", "color": "#5b21b6", "label": "Crypto"},
+}
+
+SENTIMENT_STYLES = {
+    "bullish":  {"bg": "#dcfce7", "color": "#15803d", "icon": "🟢"},
+    "bearish":  {"bg": "#fee2e2", "color": "#b91c1c", "icon": "🔴"},
+    "neutral":  {"bg": "#fef9c3", "color": "#92400e", "icon": "🟡"},
 }
 
 SECTION_META = {
@@ -260,10 +270,12 @@ def generate_content(sources_with_articles: list[dict]) -> dict:
 
     prompt = f"""You are curating the daily "MorningTBrief" newsletter for Tiberiu on {today}.
 
-Below are the latest articles from each source. Return a JSON object with this EXACT structure:
+Write in the style of The Daily Skimm: conversational, witty, and direct — like a smart friend explaining the news over coffee. Short punchy sentences. Zero jargon. Hook the reader fast, explain why it matters, then get out.
+
+Below are the latest articles. Return a JSON object with this EXACT structure:
 
 {{
-  "intro": "2-3 sentence energetic intro summarising the day's key stories",
+  "intro": "2-3 sentence Skimm-style intro — witty, energetic, hooks the reader on today's big themes",
   "sections": [
     {{
       "category": "tech",
@@ -273,9 +285,11 @@ Below are the latest articles from each source. Return a JSON object with this E
           "author": "Author Name",
           "title": "EXACT title from the list below",
           "url": "EXACT url from the list below",
-          "summary": "1-2 punchy sentences",
-          "takeaway": "Concrete, actionable insight for today",
-          "read_time": "4 min read"
+          "summary": "2-3 short punchy sentences in Skimm voice — conversational, no jargon, explain it like a smart friend",
+          "key_stat": "The single most important number, percentage, or fact from this story (e.g. '87% accuracy', '$2.4B raised', 'rates held at 4.5%')",
+          "sentiment": "bullish OR bearish OR neutral",
+          "takeaway": "One concrete thing to think about or do today — direct, actionable, personal",
+          "read_time": "X min read"
         }}
       ]
     }},
@@ -295,9 +309,9 @@ Below are the latest articles from each source. Return a JSON object with this E
 
 STRICT RULES:
 - Use the EXACT title and EXACT URL from the list — never invent or alter them
-- For each category section, include AT LEAST ONE article from a "Reddit ·" source (the trending community post) alongside 1 newsletter article
-- Reddit posts show what real people are talking about right now — always include them
-- Remaining articles go in quick_links (3-4 total)
+- Pick 1-2 articles per category for main sections; remaining go in quick_links (3-4 total)
+- sentiment must be exactly one of: bullish, bearish, neutral
+- key_stat must be a specific number or fact — never vague (not "significant growth", yes "up 34% YoY")
 - Tone: always positive and forward-looking, never pessimistic
 - Return ONLY valid JSON — no markdown, no code fences, no explanations
 
@@ -337,13 +351,20 @@ def assemble_html(content: dict) -> str:
 
         articles_html = ""
         for art in section.get("articles", []):
+            sent_key = art.get("sentiment", "neutral").lower()
+            sent_style = SENTIMENT_STYLES.get(sent_key, SENTIMENT_STYLES["neutral"])
             articles_html += ARTICLE_TEMPLATE.format(
                 SOURCE=_s(f"{art.get('source','')} · {art.get('author','')}"),
                 CAT_BG=cat_style["bg"],
                 CAT_COLOR=cat_style["color"],
                 CATEGORY=cat_style["label"],
+                SENT_BG=sent_style["bg"],
+                SENT_COLOR=sent_style["color"],
+                SENT_ICON=sent_style["icon"],
+                SENTIMENT=_s(sent_key.capitalize()),
                 URL=_s(art.get("url", "#")),
                 TITLE=_s(art.get("title", "")),
+                KEY_STAT=_s(art.get("key_stat", "")),
                 SUMMARY=_s(art.get("summary", "")),
                 TAKEAWAY=_s(art.get("takeaway", "")),
                 READ_TIME=_s(art.get("read_time", "")),
