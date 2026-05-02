@@ -120,20 +120,20 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
   <!-- Header -->
   <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:2px solid #1a1a1a;padding-bottom:20px;margin-bottom:24px;">
     <tr>
-      <td style="font-size:22px;font-weight:800;color:#1a1a1a;">
+      <td style="font-size:26px;font-weight:800;color:#1a1a1a;">
         MorningT<span style="color:#2563eb;">Brief</span>
       </td>
-      <td align="right" style="font-size:12px;color:#888;">{DATE}</td>
+      <td align="right" style="font-size:14px;color:#888;">{DATE}</td>
     </tr>
     <tr>
-      <td colspan="2" style="font-size:13px;color:#555;padding-top:6px;">
+      <td colspan="2" style="font-size:16px;color:#555;padding-top:6px;">
         Tech &amp; Macro &amp; Crypto &amp; Design, curated for Tiberiu &nbsp;·&nbsp; Est. read time: ~8 min
       </td>
     </tr>
   </table>
 
   <!-- Intro -->
-  <div style="background:#f0f4ff;border-radius:8px;padding:14px 18px;margin-bottom:28px;font-size:13.5px;color:#333;line-height:1.6;border-left:4px solid #2563eb;">
+  <div style="background:#f0f4ff;border-radius:8px;padding:14px 18px;margin-bottom:28px;font-size:16px;color:#333;line-height:1.6;border-left:4px solid #2563eb;">
     <strong style="color:#1a1a1a;">Good morning.</strong> {INTRO}
   </div>
 
