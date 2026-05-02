@@ -150,15 +150,18 @@ ARTICLE_TEMPLATE = """
       <a href="{URL}" style="display:block;font-size:24px;font-weight:800;color:#1a1a1a;text-decoration:none;line-height:1.2;margin-bottom:10px;">{TITLE}</a>
       <div style="font-size:12px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:5px 10px;margin-bottom:12px;">&#128202; {KEY_STAT}</div>
       <table cellpadding="0" cellspacing="0" width="100%">
-        <tr><td style="padding:6px 0;font-size:14px;color:#1a1a1a;line-height:1.6;vertical-align:top;">
-          <span style="font-weight:800;color:#2563eb;">&#8226; What Happened</span><br/>{WHAT_HAPPENED}
+        <tr><td style="padding-top:10px;padding-bottom:2px;">
+          <span style="font-size:11px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:0.08em;">What Happened</span>
         </td></tr>
-        <tr><td style="padding:6px 0;font-size:14px;color:#1a1a1a;line-height:1.6;vertical-align:top;">
-          <span style="font-weight:800;color:#7c3aed;">&#8226; Why It Matters</span><br/>{WHY_IT_MATTERS}
+        <tr><td style="padding-bottom:14px;font-size:14px;color:#1a1a1a;line-height:1.65;">{WHAT_HAPPENED}</td></tr>
+        <tr><td style="padding-top:0;padding-bottom:2px;">
+          <span style="font-size:11px;font-weight:800;color:#7c3aed;text-transform:uppercase;letter-spacing:0.08em;">Why It Matters</span>
         </td></tr>
-        <tr><td style="padding:6px 0;font-size:14px;color:#1a1a1a;line-height:1.6;vertical-align:top;">
-          <span style="font-weight:800;color:#059669;">&#8226; What To Do</span><br/>{WHAT_TO_DO}
+        <tr><td style="padding-bottom:14px;font-size:14px;color:#1a1a1a;line-height:1.65;">{WHY_IT_MATTERS}</td></tr>
+        <tr><td style="padding-top:0;padding-bottom:2px;">
+          <span style="font-size:11px;font-weight:800;color:#059669;text-transform:uppercase;letter-spacing:0.08em;">What To Do</span>
         </td></tr>
+        <tr><td style="padding-bottom:4px;font-size:14px;color:#1a1a1a;line-height:1.65;">{WHAT_TO_DO}</td></tr>
       </table>
       <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-top:10px;">{READ_TIME}</div>
     </div>
