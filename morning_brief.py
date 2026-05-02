@@ -60,19 +60,19 @@ SOURCES = [
         "category": "tech", "type": "rss"
     },
     {
-        "name": "Reddit · r/artificial", "author": "Reddit",
-        "feed": "artificial",
-        "category": "tech", "type": "reddit"
+        "name": "Hacker News", "author": "YCombinator",
+        "feed": "https://news.ycombinator.com/rss",
+        "category": "tech", "type": "rss"
     },
     {
-        "name": "Reddit · r/Economics", "author": "Reddit",
-        "feed": "Economics",
-        "category": "macro", "type": "reddit"
+        "name": "CNBC Economy", "author": "CNBC",
+        "feed": "https://www.cnbc.com/id/20910258/device/rss/rss.html",
+        "category": "macro", "type": "rss"
     },
     {
-        "name": "Reddit · r/CryptoCurrency", "author": "Reddit",
-        "feed": "CryptoCurrency",
-        "category": "crypto", "type": "reddit"
+        "name": "CoinDesk", "author": "CoinDesk",
+        "feed": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+        "category": "crypto", "type": "rss"
     },
 ]
 
@@ -425,10 +425,7 @@ def main():
     sources_with_articles = []
     for source in SOURCES:
         print(f"  Fetching {source['name']}...")
-        if source.get("type") == "reddit":
-            articles = fetch_reddit(source["feed"])
-        else:
-            articles = fetch_feed(source["feed"])
+        articles = fetch_feed(source["feed"])
         if articles:
             sources_with_articles.append({**source, "articles": articles})
             print(f"  ✓ {len(articles)} articles found")
