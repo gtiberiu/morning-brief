@@ -167,11 +167,15 @@ ARTICLE_TEMPLATE = """
     </div>
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0;"/>"""
 
-QUICK_LINK_TEMPLATE = """    <div style="font-size:13.5px;margin-bottom:8px;">
-      <span style="color:#2563eb;font-weight:700;margin-right:6px;">&#8594;</span>
-      <a href="{URL}" style="color:#1a1a1a;text-decoration:none;font-weight:500;">{TITLE}</a>
-      <span style="font-size:11px;color:#aaa;margin-left:4px;">{SOURCE}</span>
-    </div>"""
+QUICK_LINK_TEMPLATE = """    <table cellpadding="0" cellspacing="0" style="margin-bottom:10px;width:100%;">
+      <tr>
+        <td style="width:18px;vertical-align:top;padding-top:1px;color:#2563eb;font-weight:700;font-size:13.5px;">&#8594;</td>
+        <td style="font-size:13.5px;line-height:1.5;">
+          <a href="{URL}" style="color:#1a1a1a;text-decoration:none;font-weight:500;">{TITLE}</a>
+          <span style="font-size:11px;color:#aaa;margin-left:4px;">{SOURCE}</span>
+        </td>
+      </tr>
+    </table>"""
 
 CAT_STYLES = {
     "tech":   {"bg": "#dbeafe", "color": "#1d4ed8", "label": "Tech"},
