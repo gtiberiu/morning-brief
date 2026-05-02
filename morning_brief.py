@@ -147,14 +147,20 @@ ARTICLE_TEMPLATE = """
           </td>
         </tr>
       </table>
-      <a href="{URL}" style="display:block;font-size:24px;font-weight:800;color:#1a1a1a;text-decoration:none;line-height:1.2;margin-bottom:6px;">{TITLE}</a>
-      <div style="font-size:12px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:5px 10px;margin-bottom:8px;display:inline-block;">&#128202; {KEY_STAT}</div>
-      <div style="font-size:14px;color:#555;line-height:1.65;margin-top:6px;">{SUMMARY}</div>
-      <div style="margin-top:12px;background:#f9fafb;border-radius:6px;padding:10px 14px;font-size:13.5px;color:#1a1a1a;line-height:1.6;">
-        <div style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#2563eb;margin-bottom:4px;">&#128161; Your takeaway</div>
-        {TAKEAWAY}
-      </div>
-      <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;">{READ_TIME}</div>
+      <a href="{URL}" style="display:block;font-size:24px;font-weight:800;color:#1a1a1a;text-decoration:none;line-height:1.2;margin-bottom:10px;">{TITLE}</a>
+      <div style="font-size:12px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:5px 10px;margin-bottom:12px;">&#128202; {KEY_STAT}</div>
+      <table cellpadding="0" cellspacing="0" width="100%">
+        <tr><td style="padding:6px 0;font-size:14px;color:#1a1a1a;line-height:1.6;vertical-align:top;">
+          <span style="font-weight:800;color:#2563eb;">&#8226; What Happened</span><br/>{WHAT_HAPPENED}
+        </td></tr>
+        <tr><td style="padding:6px 0;font-size:14px;color:#1a1a1a;line-height:1.6;vertical-align:top;">
+          <span style="font-weight:800;color:#7c3aed;">&#8226; Why It Matters</span><br/>{WHY_IT_MATTERS}
+        </td></tr>
+        <tr><td style="padding:6px 0;font-size:14px;color:#1a1a1a;line-height:1.6;vertical-align:top;">
+          <span style="font-weight:800;color:#059669;">&#8226; What To Do</span><br/>{WHAT_TO_DO}
+        </td></tr>
+      </table>
+      <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-top:10px;">{READ_TIME}</div>
     </div>
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0;"/>"""
 
@@ -298,10 +304,11 @@ Below are the latest articles. Return a JSON object with this EXACT structure:
           "author": "Author Name",
           "title": "EXACT title from the list below",
           "url": "EXACT url from the list below",
-          "summary": "2-3 short punchy sentences in Skimm voice — conversational, no jargon, explain it like a smart friend",
           "key_stat": "The single most important number, percentage, or fact from this story (e.g. '87% accuracy', '$2.4B raised', 'rates held at 4.5%')",
           "sentiment": "bullish OR bearish OR neutral",
-          "takeaway": "One concrete thing to think about or do today — direct, actionable, personal",
+          "what_happened": "1-2 punchy sentences — just the facts, Skimm voice, no jargon",
+          "why_it_matters": "1-2 sentences — the implication, why should Tiberiu care right now",
+          "what_to_do": "1 concrete action or thing to think about today — direct, personal, specific",
           "read_time": "X min read"
         }}
       ]
@@ -378,8 +385,9 @@ def assemble_html(content: dict) -> str:
                 URL=_s(art.get("url", "#")),
                 TITLE=_s(art.get("title", "")),
                 KEY_STAT=_s(art.get("key_stat", "")),
-                SUMMARY=_s(art.get("summary", "")),
-                TAKEAWAY=_s(art.get("takeaway", "")),
+                WHAT_HAPPENED=_s(art.get("what_happened", "")),
+                WHY_IT_MATTERS=_s(art.get("why_it_matters", "")),
+                WHAT_TO_DO=_s(art.get("what_to_do", "")),
                 READ_TIME=_s(art.get("read_time", "")),
             )
 
