@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Morning Brief — daily newsletter generator
+MorningTBrief — daily newsletter generator
 Fetches latest articles from 4 sources, generates HTML with Claude, sends via Resend.
 """
 
@@ -15,29 +15,44 @@ import anthropic
 # ── Config ────────────────────────────────────────────────────────────────────
 RESEND_API_KEY   = os.environ["RESEND_API_KEY"]
 ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
-FROM_EMAIL = "Morning Brief <newsletter@gavristiberiu.com>"
+FROM_EMAIL = "MorningTBrief <newsletter@gavristiberiu.com>"
 TO_EMAIL   = "me@gavristiberiu.com"
 
 SOURCES = [
     {
         "name": "One Useful Thing", "author": "Ethan Mollick",
         "feed": "https://www.oneusefulthing.org/feed",
-        "category": "tech"
+        "category": "tech", "type": "rss"
     },
     {
         "name": "The Diff", "author": "Byrne Hobart",
         "feed": "https://www.thediff.co/archive/feed/",
-        "category": "tech"
+        "category": "tech", "type": "rss"
     },
     {
         "name": "Marginal Revolution", "author": "Tyler Cowen",
         "feed": "https://feeds.feedburner.com/marginalrevolution/feed",
-        "category": "macro"
+        "category": "macro", "type": "rss"
     },
     {
         "name": "Bankless", "author": "Bankless",
         "feed": "https://www.bankless.com/feed",
-        "category": "crypto"
+        "category": "crypto", "type": "rss"
+    },
+    {
+        "name": "Reddit · r/artificial", "author": "Reddit",
+        "feed": "artificial",
+        "category": "tech", "type": "reddit"
+    },
+    {
+        "name": "Reddit · r/Economics", "author": "Reddit",
+        "feed": "Economics",
+        "category": "macro", "type": "reddit"
+    },
+    {
+        "name": "Reddit · r/CryptoCurrency", "author": "Reddit",
+        "feed": "CryptoCurrency",
+        "category": "crypto", "type": "reddit"
     },
 ]
 
@@ -47,7 +62,7 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Morning Brief — {DATE}</title>
+  <title>MorningTBrief — {DATE}</title>
 </head>
 <body style="margin:0;padding:0;background:#ffffff;font-family:Helvetica,Arial,sans-serif;color:#1a1a1a;font-size:15px;line-height:1.6;">
 <div style="max-width:640px;margin:0 auto;padding:32px 24px 48px;">
@@ -56,7 +71,7 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
   <table width="100%" cellpadding="0" cellspacing="0" style="border-bottom:2px solid #1a1a1a;padding-bottom:20px;margin-bottom:24px;">
     <tr>
       <td style="font-size:22px;font-weight:800;color:#1a1a1a;">
-        Morning<span style="color:#2563eb;">Brief</span>
+        MorningT<span style="color:#2563eb;">Brief</span>
       </td>
       <td align="right" style="font-size:12px;color:#888;">{DATE}</td>
     </tr>
@@ -174,6 +189,37 @@ def fetch_feed(url: str, max_items: int = 3) -> list[dict]:
         return []
 
 
+def fetch_reddit(subreddit: str, max_items: int = 3) -> list[dict]:
+    """Fetch top hot posts from a subreddit via Reddit's public JSON API."""
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "MorningBrief/1.0"})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode())
+        items = []
+        for post in data["data"]["children"]:
+            p = post["data"]
+            if p.get("stickied") or p.get("is_self") and not p.get("selftext"):
+                continue  # skip pinned/empty posts
+            title = p.get("title", "").strip()
+            permalink = f"https://reddit.com{p.get('permalink', '')}"
+            score = p.get("score", 0)
+            comments = p.get("num_comments", 0)
+            desc = (p.get("selftext", "") or p.get("title", ""))[:400]
+            if title:
+                items.append({
+                    "title": title,
+                    "link": permalink,
+                    "description": f"{desc} [{score:,} upvotes · {comments:,} comments]"
+                })
+            if len(items) >= max_items:
+                break
+        return items
+    except Exception as e:
+        print(f"  ⚠ Could not fetch r/{subreddit}: {e}")
+        return []
+
+
 # ── Newsletter Generation ─────────────────────────────────────────────────────
 
 def build_articles_context(sources_with_articles: list[dict]) -> str:
@@ -192,7 +238,7 @@ def generate_content(sources_with_articles: list[dict]) -> dict:
     today = datetime.datetime.now().strftime("%A, %B %-d, %Y")
     context = build_articles_context(sources_with_articles)
 
-    prompt = f"""You are curating the daily "Morning Brief" newsletter for Tiberiu on {today}.
+    prompt = f"""You are curating the daily "MorningTBrief" newsletter for Tiberiu on {today}.
 
 Below are the latest articles from each source. Return a JSON object with this EXACT structure:
 
@@ -318,7 +364,7 @@ def send_email(html: str) -> dict:
     payload = {
         "from": FROM_EMAIL,
         "to": [TO_EMAIL],
-        "subject": f"Morning Brief — {today}",
+        "subject": f"MorningTBrief — {today}",
         "html": html
     }
     data = json.dumps(payload).encode()
@@ -351,13 +397,16 @@ def send_email(html: str) -> dict:
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    print("🗞  Morning Brief generator starting...")
+    print("🗞  MorningTBrief generator starting...")
 
     # 1. Fetch all feeds
     sources_with_articles = []
     for source in SOURCES:
         print(f"  Fetching {source['name']}...")
-        articles = fetch_feed(source["feed"])
+        if source.get("type") == "reddit":
+            articles = fetch_reddit(source["feed"])
+        else:
+            articles = fetch_feed(source["feed"])
         if articles:
             sources_with_articles.append({**source, "articles": articles})
             print(f"  ✓ {len(articles)} articles found")
