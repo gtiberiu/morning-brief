@@ -270,7 +270,18 @@ def generate_content(sources_with_articles: list[dict]) -> dict:
 
     prompt = f"""You are curating the daily "MorningTBrief" newsletter for Tiberiu on {today}.
 
-Write in the style of The Daily Skimm: conversational, witty, and direct — like a smart friend explaining the news over coffee. Short punchy sentences. Zero jargon. Hook the reader fast, explain why it matters, then get out.
+Write in the exact style of The Daily Skimm newsletter. Use their signature language patterns:
+- Start summaries with "Here's the deal:" or "What's happening:"
+- Use "Why you should care:" or "Why it matters:" to transition to impact
+- Use short, punchy sentences. One idea per sentence. Like this.
+- Use "So..." or "But here's the thing..." as connectors
+- Use "Long story short:" before the key point
+- Address the reader as "you" directly — always personal
+- Use rhetorical questions to hook: "Remember when X? Yeah, that's happening again."
+- Use ellipses for suspense and em-dashes for punchy asides
+- End takeaways with "The bottom line:" or "What to watch:"
+- Zero corporate jargon. If it sounds like a press release, rewrite it.
+- Each summary should feel like a text from a smart friend who read the whole article so you don't have to.
 
 Below are the latest articles. Return a JSON object with this EXACT structure:
 
