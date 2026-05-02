@@ -364,7 +364,8 @@ def main():
     print(f"  ✓ HTML generated ({len(html):,} chars)")
 
     # 3. Send via Resend
-    print("\n  Sending via Resend...")
+    masked = RESEND_API_KEY[:6] + "..." + RESEND_API_KEY[-4:] if len(RESEND_API_KEY) > 10 else "***"
+    print(f"\n  Sending via Resend (key: {masked})...")
     result = send_email(html)
     print(f"  ✓ Email sent! ID: {result.get('id')}")
     print("\n🎉 Done!")
