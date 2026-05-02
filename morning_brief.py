@@ -282,6 +282,7 @@ Write in the exact style of The Daily Skimm newsletter. Use their signature lang
 - End takeaways with "The bottom line:" or "What to watch:"
 - Zero corporate jargon. If it sounds like a press release, rewrite it.
 - Each summary should feel like a text from a smart friend who read the whole article so you don't have to.
+- ALWAYS wrap these signature phrases in <strong> tags when used: <strong>Here's the deal:</strong> <strong>What's happening:</strong> <strong>Why you should care:</strong> <strong>Why it matters:</strong> <strong>Long story short:</strong> <strong>The bottom line:</strong> <strong>What to watch:</strong> <strong>But here's the thing...</strong>
 
 Below are the latest articles. Return a JSON object with this EXACT structure:
 
