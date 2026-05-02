@@ -336,7 +336,8 @@ Below are the latest articles. Return a JSON object with this EXACT structure:
 }}
 
 STRICT RULES:
-- Use the EXACT title and EXACT URL from the list — never invent or alter them
+- Use the EXACT URL from the list — never invent or alter URLs
+- Rewrite the title in plain English, max 8 words, Skimm style — clear, punchy, no jargon or SEO clickbait
 - Pick 1-2 articles per category for main sections; remaining go in quick_links (3-4 total)
 - sentiment must be exactly one of: bullish, bearish, neutral
 - key_stat must be a specific number or fact — never vague (not "significant growth", yes "up 34% YoY")
