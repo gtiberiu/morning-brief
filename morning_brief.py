@@ -342,6 +342,7 @@ STRICT RULES:
 - sentiment must be exactly one of: bullish, bearish, neutral
 - key_stat must be a specific number or fact — never vague (not "significant growth", yes "up 34% YoY")
 - Tone: always positive and forward-looking, never pessimistic
+- Even bearish stories must end on an opportunity angle — "What To Do" should always frame the situation as something Tiberiu can use to his advantage, not something to fear or avoid
 - Return ONLY valid JSON — no markdown, no code fences, no explanations
 
 TODAY'S ARTICLES:
