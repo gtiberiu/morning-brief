@@ -74,6 +74,36 @@ SOURCES = [
         "feed": "https://www.coindesk.com/arc/outboundfeeds/rss/",
         "category": "crypto", "type": "rss"
     },
+    {
+        "name": "MIT Technology Review", "author": "MIT",
+        "feed": "https://www.technologyreview.com/feed/",
+        "category": "tech", "type": "rss"
+    },
+    {
+        "name": "The Block", "author": "The Block",
+        "feed": "https://www.theblock.co/rss.xml",
+        "category": "crypto", "type": "rss"
+    },
+    {
+        "name": "Calculated Risk", "author": "Bill McBride",
+        "feed": "https://www.calculatedriskblog.com/feeds/posts/default",
+        "category": "macro", "type": "rss"
+    },
+    {
+        "name": "Nielsen Norman Group", "author": "NN/g",
+        "feed": "https://www.nngroup.com/feed/rss/",
+        "category": "design", "type": "rss"
+    },
+    {
+        "name": "UX Collective", "author": "UX Collective",
+        "feed": "https://uxdesign.cc/feed",
+        "category": "design", "type": "rss"
+    },
+    {
+        "name": "Fast Company Design", "author": "Fast Company",
+        "feed": "https://www.fastcompany.com/design/rss",
+        "category": "design", "type": "rss"
+    },
 ]
 
 # Email-safe HTML template — uses inline styles only, no flexbox, no pseudo-elements
@@ -97,7 +127,7 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
     </tr>
     <tr>
       <td colspan="2" style="font-size:13px;color:#555;padding-top:6px;">
-        Tech &amp; Macro &amp; Crypto, curated for Tiberiu &nbsp;·&nbsp; Est. read time: ~6 min
+        Tech &amp; Macro &amp; Crypto &amp; Design, curated for Tiberiu &nbsp;·&nbsp; Est. read time: ~8 min
       </td>
     </tr>
   </table>
@@ -181,6 +211,7 @@ CAT_STYLES = {
     "tech":   {"bg": "#dbeafe", "color": "#1d4ed8", "label": "Tech"},
     "macro":  {"bg": "#d1fae5", "color": "#065f46", "label": "Macro"},
     "crypto": {"bg": "#ede9fe", "color": "#5b21b6", "label": "Crypto"},
+    "design": {"bg": "#fce7f3", "color": "#9d174d", "label": "Design"},
 }
 
 SENTIMENT_STYLES = {
@@ -193,6 +224,7 @@ SECTION_META = {
     "tech":   {"icon": "🤖", "name": "AI &amp; Technology"},
     "macro":  {"icon": "📈", "name": "Macro Economics"},
     "crypto": {"icon": "₿",  "name": "Crypto · BTC &amp; ETH"},
+    "design": {"icon": "🎨", "name": "Design &amp; UX"},
 }
 
 
@@ -327,6 +359,10 @@ Below are the latest articles. Return a JSON object with this EXACT structure:
     }},
     {{
       "category": "crypto",
+      "articles": [...]
+    }},
+    {{
+      "category": "design",
       "articles": [...]
     }}
   ],
