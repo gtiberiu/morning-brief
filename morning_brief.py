@@ -30,8 +30,8 @@ SOURCES = [
         "category": "tech"
     },
     {
-        "name": "Noahpinion", "author": "Noah Smith",
-        "feed": "https://noahpinion.substack.com/feed",
+        "name": "Marginal Revolution", "author": "Tyler Cowen",
+        "feed": "https://feeds.feedburner.com/marginalrevolution/feed",
         "category": "macro"
     },
     {
@@ -330,8 +330,13 @@ def send_email(html: str) -> dict:
         },
         method="POST"
     )
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read().decode())
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        body = e.read().decode()
+        print(f"  ✗ Resend error {e.code}: {body}")
+        raise
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
