@@ -140,39 +140,39 @@ ARTICLE_TEMPLATE = """
     <div style="margin-bottom:22px;">
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px;">
         <tr>
-          <td style="font-size:11px;color:#aaa;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">{SOURCE}</td>
+          <td style="font-size:13px;color:#aaa;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">{SOURCE}</td>
           <td align="right">
-            <span style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px;background:{CAT_BG};color:{CAT_COLOR};margin-right:4px;">{CATEGORY}</span>
-            <span style="font-size:11px;font-weight:700;padding:2px 7px;border-radius:3px;background:{SENT_BG};color:{SENT_COLOR};">{SENT_ICON} {SENTIMENT}</span>
+            <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border-radius:3px;background:{CAT_BG};color:{CAT_COLOR};margin-right:4px;">{CATEGORY}</span>
+            <span style="font-size:12px;font-weight:700;padding:3px 8px;border-radius:3px;background:{SENT_BG};color:{SENT_COLOR};">{SENT_ICON} {SENTIMENT}</span>
           </td>
         </tr>
       </table>
-      <a href="{URL}" style="display:block;font-size:24px;font-weight:800;color:#1a1a1a;text-decoration:none;line-height:1.2;margin-bottom:10px;">{TITLE}</a>
-      <div style="font-size:12px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:5px 10px;margin-bottom:12px;">&#128202; {KEY_STAT}</div>
+      <a href="{URL}" style="display:block;font-size:26px;font-weight:800;color:#1a1a1a;text-decoration:none;line-height:1.25;margin-bottom:10px;">{TITLE}</a>
+      <div style="font-size:14px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:6px 12px;margin-bottom:12px;">&#128202; {KEY_STAT}</div>
       <table cellpadding="0" cellspacing="0" width="100%">
-        <tr><td style="padding-top:10px;padding-bottom:2px;">
-          <span style="font-size:11px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:0.08em;">What Happened</span>
+        <tr><td style="padding-top:10px;padding-bottom:3px;">
+          <span style="font-size:13px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:0.08em;">What Happened</span>
         </td></tr>
-        <tr><td style="padding-bottom:14px;font-size:14px;color:#1a1a1a;line-height:1.65;">{WHAT_HAPPENED}</td></tr>
-        <tr><td style="padding-top:0;padding-bottom:2px;">
-          <span style="font-size:11px;font-weight:800;color:#7c3aed;text-transform:uppercase;letter-spacing:0.08em;">Why It Matters</span>
+        <tr><td style="padding-bottom:14px;font-size:16px;color:#1a1a1a;line-height:1.7;">{WHAT_HAPPENED}</td></tr>
+        <tr><td style="padding-top:0;padding-bottom:3px;">
+          <span style="font-size:13px;font-weight:800;color:#7c3aed;text-transform:uppercase;letter-spacing:0.08em;">Why It Matters</span>
         </td></tr>
-        <tr><td style="padding-bottom:14px;font-size:14px;color:#1a1a1a;line-height:1.65;">{WHY_IT_MATTERS}</td></tr>
-        <tr><td style="padding-top:0;padding-bottom:2px;">
-          <span style="font-size:11px;font-weight:800;color:#059669;text-transform:uppercase;letter-spacing:0.08em;">What To Do</span>
+        <tr><td style="padding-bottom:14px;font-size:16px;color:#1a1a1a;line-height:1.7;">{WHY_IT_MATTERS}</td></tr>
+        <tr><td style="padding-top:0;padding-bottom:3px;">
+          <span style="font-size:13px;font-weight:800;color:#059669;text-transform:uppercase;letter-spacing:0.08em;">What To Do</span>
         </td></tr>
-        <tr><td style="padding-bottom:4px;font-size:14px;color:#1a1a1a;line-height:1.65;">{WHAT_TO_DO}</td></tr>
+        <tr><td style="padding-bottom:4px;font-size:16px;color:#1a1a1a;line-height:1.7;">{WHAT_TO_DO}</td></tr>
       </table>
-      <div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-top:10px;">{READ_TIME}</div>
+      <div style="font-size:13px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-top:10px;">{READ_TIME}</div>
     </div>
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0;"/>"""
 
-QUICK_LINK_TEMPLATE = """    <table cellpadding="0" cellspacing="0" style="margin-bottom:10px;width:100%;">
+QUICK_LINK_TEMPLATE = """    <table cellpadding="0" cellspacing="0" style="margin-bottom:12px;width:100%;">
       <tr>
-        <td style="width:18px;vertical-align:top;padding-top:1px;color:#2563eb;font-weight:700;font-size:13.5px;">&#8594;</td>
-        <td style="font-size:13.5px;line-height:1.5;">
+        <td style="width:20px;vertical-align:top;padding-top:1px;color:#2563eb;font-weight:700;font-size:16px;">&#8594;</td>
+        <td style="font-size:16px;line-height:1.5;">
           <a href="{URL}" style="color:#1a1a1a;text-decoration:none;font-weight:500;">{TITLE}</a>
-          <span style="font-size:11px;color:#aaa;margin-left:4px;">{SOURCE}</span>
+          <span style="font-size:13px;color:#aaa;margin-left:4px;">{SOURCE}</span>
         </td>
       </tr>
     </table>"""
@@ -314,9 +314,9 @@ Below are the latest articles. Return a JSON object with this EXACT structure:
           "url": "EXACT url from the list below",
           "key_stat": "The single most important number, percentage, or fact from this story (e.g. '87% accuracy', '$2.4B raised', 'rates held at 4.5%')",
           "sentiment": "bullish OR bearish OR neutral",
-          "what_happened": "1-2 punchy sentences — just the facts, Skimm voice, no jargon",
-          "why_it_matters": "1-2 sentences — the implication, why should Tiberiu care right now",
-          "what_to_do": "1 concrete action or thing to think about today — direct, personal, specific",
+          "what_happened": "exactly 1 sentence — just the core fact, Skimm voice, no jargon",
+          "why_it_matters": "exactly 1 sentence — the key implication, why Tiberiu should care",
+          "what_to_do": "1-2 sentences — concrete action or mindset shift, direct and personal",
           "read_time": "X min read"
         }}
       ]
