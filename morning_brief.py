@@ -205,12 +205,12 @@ ARTICLE_TEMPLATE = """
     </div>
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:20px 0;"/>"""
 
-QUICK_LINK_TEMPLATE = """    <table cellpadding="0" cellspacing="0" style="margin-bottom:12px;width:100%;">
+QUICK_LINK_TEMPLATE = """    <table cellpadding="0" cellspacing="0" style="margin-bottom:16px;width:100%;">
       <tr>
-        <td style="width:20px;vertical-align:top;padding-top:1px;color:#2563eb;font-weight:700;font-size:16px;">&#8594;</td>
-        <td style="font-size:16px;line-height:1.5;">
+        <td style="width:24px;vertical-align:top;padding-top:2px;color:#2563eb;font-weight:700;font-size:20px;">&#8594;</td>
+        <td style="font-size:20px;line-height:1.5;">
           <a href="{URL}" style="color:#1a1a1a;text-decoration:none;font-weight:500;">{TITLE}</a>
-          <span style="font-size:13px;color:#aaa;margin-left:4px;">{SOURCE}</span>
+          <span style="font-size:16px;color:#aaa;margin-left:6px;">{SOURCE}</span>
         </td>
       </tr>
     </table>"""
