@@ -112,9 +112,13 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="color-scheme" content="light"/>
+  <meta name="supported-color-schemes" content="light"/>
   <title>MorningTBrief — {DATE}</title>
+  <style>:root {{ color-scheme: light only; }}</style>
 </head>
-<body style="margin:0;padding:0;background:#ffffff;font-family:Helvetica,Arial,sans-serif;color:#1a1a1a;font-size:15px;line-height:1.6;">
+<body style="margin:0;padding:0;background:#ffffff !important;background-color:#ffffff !important;font-family:Helvetica,Arial,sans-serif;color:#1a1a1a;font-size:15px;line-height:1.6;">
+<div style="background:#ffffff;background-color:#ffffff;">
 <div style="max-width:640px;margin:0 auto;padding:32px 24px 48px;">
 
   <!-- Header -->
@@ -155,6 +159,7 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
   </div>
 
 </div>
+</div>
 </body>
 </html>"""
 
@@ -168,30 +173,28 @@ SECTION_TEMPLATE = """
 
 ARTICLE_TEMPLATE = """
     <div style="margin-bottom:22px;">
-      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px;">
-        <tr>
-          <td style="font-size:13px;color:#aaa;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">{SOURCE}</td>
-          <td align="right">
-            <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border-radius:3px;background:{CAT_BG};color:{CAT_COLOR};margin-right:4px;">{CATEGORY}</span>
-            <span style="font-size:12px;font-weight:700;padding:3px 8px;border-radius:3px;background:{SENT_BG};color:{SENT_COLOR};">{SENT_ICON} {SENTIMENT}</span>
-          </td>
-        </tr>
-      </table>
+      <div style="margin-bottom:8px;">
+        <div style="font-size:13px;color:#aaa;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;margin-bottom:6px;">{SOURCE}</div>
+        <div>
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 9px;border-radius:3px;background:{CAT_BG};color:{CAT_COLOR};margin-right:4px;">{CATEGORY}</span>
+          <span style="font-size:12px;font-weight:700;padding:3px 8px;border-radius:3px;background:{SENT_BG};color:{SENT_COLOR};">{SENT_ICON} {SENTIMENT}</span>
+        </div>
+      </div>
       <a href="{URL}" style="display:block;font-size:26px;font-weight:800;color:#1a1a1a;text-decoration:none;line-height:1.25;margin-bottom:10px;">{TITLE}</a>
       <div style="font-size:16px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:6px 12px;margin-bottom:12px;">&#128202; {KEY_STAT}</div>
       <table cellpadding="0" cellspacing="0" width="100%">
         <tr><td style="padding-top:10px;padding-bottom:3px;">
           <span style="font-size:13px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:0.08em;">What Happened</span>
         </td></tr>
-        <tr><td style="padding-bottom:14px;font-size:18px;color:#1a1a1a;line-height:1.7;">{WHAT_HAPPENED}</td></tr>
+        <tr><td style="padding-bottom:14px;font-size:20px;color:#1a1a1a;line-height:1.7;">{WHAT_HAPPENED}</td></tr>
         <tr><td style="padding-top:0;padding-bottom:3px;">
           <span style="font-size:13px;font-weight:800;color:#7c3aed;text-transform:uppercase;letter-spacing:0.08em;">Why It Matters</span>
         </td></tr>
-        <tr><td style="padding-bottom:14px;font-size:18px;color:#1a1a1a;line-height:1.7;">{WHY_IT_MATTERS}</td></tr>
+        <tr><td style="padding-bottom:14px;font-size:20px;color:#1a1a1a;line-height:1.7;">{WHY_IT_MATTERS}</td></tr>
         <tr><td style="padding-top:0;padding-bottom:3px;">
           <span style="font-size:13px;font-weight:800;color:#059669;text-transform:uppercase;letter-spacing:0.08em;">What To Do</span>
         </td></tr>
-        <tr><td style="padding-bottom:4px;font-size:18px;color:#1a1a1a;line-height:1.7;">{WHAT_TO_DO}</td></tr>
+        <tr><td style="padding-bottom:4px;font-size:20px;color:#1a1a1a;line-height:1.7;">{WHAT_TO_DO}</td></tr>
       </table>
       <div style="font-size:13px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-top:10px;">{READ_TIME}</div>
     </div>
@@ -413,8 +416,11 @@ def assemble_html(content: dict) -> str:
         for art in section.get("articles", []):
             sent_key = art.get("sentiment", "neutral").lower()
             sent_style = SENTIMENT_STYLES.get(sent_key, SENTIMENT_STYLES["neutral"])
+            src = art.get('source', '')
+            auth = art.get('author', '')
+            source_display = src if src.lower() == auth.lower() else f"{src} · {auth}"
             articles_html += ARTICLE_TEMPLATE.format(
-                SOURCE=_s(f"{art.get('source','')} · {art.get('author','')}"),
+                SOURCE=_s(source_display),
                 CAT_BG=cat_style["bg"],
                 CAT_COLOR=cat_style["color"],
                 CATEGORY=cat_style["label"],
