@@ -178,20 +178,20 @@ ARTICLE_TEMPLATE = """
         </tr>
       </table>
       <a href="{URL}" style="display:block;font-size:26px;font-weight:800;color:#1a1a1a;text-decoration:none;line-height:1.25;margin-bottom:10px;">{TITLE}</a>
-      <div style="font-size:14px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:6px 12px;margin-bottom:12px;">&#128202; {KEY_STAT}</div>
+      <div style="font-size:16px;font-weight:700;color:#555;background:#f3f4f6;border-radius:4px;padding:6px 12px;margin-bottom:12px;">&#128202; {KEY_STAT}</div>
       <table cellpadding="0" cellspacing="0" width="100%">
         <tr><td style="padding-top:10px;padding-bottom:3px;">
           <span style="font-size:13px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:0.08em;">What Happened</span>
         </td></tr>
-        <tr><td style="padding-bottom:14px;font-size:16px;color:#1a1a1a;line-height:1.7;">{WHAT_HAPPENED}</td></tr>
+        <tr><td style="padding-bottom:14px;font-size:18px;color:#1a1a1a;line-height:1.7;">{WHAT_HAPPENED}</td></tr>
         <tr><td style="padding-top:0;padding-bottom:3px;">
           <span style="font-size:13px;font-weight:800;color:#7c3aed;text-transform:uppercase;letter-spacing:0.08em;">Why It Matters</span>
         </td></tr>
-        <tr><td style="padding-bottom:14px;font-size:16px;color:#1a1a1a;line-height:1.7;">{WHY_IT_MATTERS}</td></tr>
+        <tr><td style="padding-bottom:14px;font-size:18px;color:#1a1a1a;line-height:1.7;">{WHY_IT_MATTERS}</td></tr>
         <tr><td style="padding-top:0;padding-bottom:3px;">
           <span style="font-size:13px;font-weight:800;color:#059669;text-transform:uppercase;letter-spacing:0.08em;">What To Do</span>
         </td></tr>
-        <tr><td style="padding-bottom:4px;font-size:16px;color:#1a1a1a;line-height:1.7;">{WHAT_TO_DO}</td></tr>
+        <tr><td style="padding-bottom:4px;font-size:18px;color:#1a1a1a;line-height:1.7;">{WHAT_TO_DO}</td></tr>
       </table>
       <div style="font-size:13px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-top:10px;">{READ_TIME}</div>
     </div>
@@ -315,21 +315,15 @@ def generate_content(sources_with_articles: list[dict]) -> dict:
 
     prompt = f"""You are curating the daily "MorningTBrief" newsletter for Tiberiu on {today}.
 
-Write in the exact style of The Daily Skimm newsletter. Use their signature language patterns:
-- Start summaries with "Here's the deal:" or "What's happening:"
-- Use "Why you should care:" or "Why it matters:" to transition to impact
-- Use short, punchy sentences. One idea per sentence. Like this.
-- Use "So..." or "But here's the thing..." as connectors
-- Use "Long story short:" before the key point
-- Address the reader as "you" directly — always personal
-- Use rhetorical questions to hook: "Remember when X? Yeah, that's happening again."
-- Use ellipses for suspense and em-dashes for punchy asides
-- End takeaways with "The bottom line:" or "What to watch:"
+Write in short, punchy sentences. One idea per sentence. Like this.
 - Zero corporate jargon. If it sounds like a press release, rewrite it.
+- Address the reader as "you" directly — always personal
 - Each summary should feel like a text from a smart friend who read the whole article so you don't have to.
+- Do NOT start what_happened with "Here's the deal:" — just state the fact directly
+- Do NOT start why_it_matters with "Why it matters:" — just state the implication directly
+- Do NOT start what_to_do with "The bottom line:" — just give the action directly
 - Do NOT add any <br/> tags inside what_happened, why_it_matters, or what_to_do — spacing is handled by the template
-- When you use these phrases, always wrap them in <strong> tags: "Here's the deal:" → <strong>Here's the deal:</strong> | "Why it matters:" → <strong>Why it matters:</strong> | "The bottom line:" → <strong>The bottom line:</strong>
-- No other phrases should be bolded
+- Do NOT bold any text inside what_happened, why_it_matters, or what_to_do
 
 Below are the latest articles. Return a JSON object with this EXACT structure:
 
