@@ -127,18 +127,23 @@ EMAIL_TEMPLATE = """<!DOCTYPE html>
       <td style="font-size:26px;font-weight:800;color:#1a1a1a;">
         MorningT<span style="color:#2563eb;">Brief</span>
       </td>
-      <td align="right" style="font-size:14px;color:#888;">{DATE}</td>
     </tr>
     <tr>
-      <td colspan="2" style="font-size:16px;color:#555;padding-top:6px;">
+      <td style="font-size:14px;color:#888;padding-top:4px;padding-bottom:6px;">{DATE}</td>
+    </tr>
+    <tr>
+      <td style="font-size:16px;color:#555;padding-top:2px;">
         Tech &amp; Macro &amp; Crypto &amp; Design, curated for Tiberiu &nbsp;·&nbsp; Est. read time: ~8 min
       </td>
     </tr>
   </table>
 
   <!-- Intro -->
-  <div style="background:#f0f4ff;border-radius:8px;padding:14px 18px;margin-bottom:28px;font-size:16px;color:#333;line-height:1.6;border-left:4px solid #2563eb;">
-    <strong style="color:#1a1a1a;">Good morning.</strong> {INTRO}
+  <div style="background:#f0f4ff;border-radius:8px;padding:14px 18px;margin-bottom:28px;font-size:20px;color:#333;line-height:1.6;border-left:4px solid #2563eb;">
+    <strong style="color:#1a1a1a;font-size:20px;">Good morning.</strong>
+    <ul style="margin:10px 0 0 0;padding-left:20px;">
+      {INTRO_BULLETS}
+    </ul>
   </div>
 
   {SECTIONS}
@@ -331,7 +336,7 @@ Write in short, punchy sentences. One idea per sentence. Like this.
 Below are the latest articles. Return a JSON object with this EXACT structure:
 
 {{
-  "intro": "2-3 sentence Skimm-style intro — witty, energetic, hooks the reader on today's big themes",
+  "intro_bullets": ["One punchy sentence about the biggest story today", "One punchy sentence about the second big story", "One punchy sentence about the third big story"],
   "sections": [
     {{
       "category": "tech",
@@ -452,9 +457,15 @@ def assemble_html(content: dict) -> str:
             SOURCE=_s(ql.get("source", "")),
         )
 
+    # Build intro bullets
+    bullets = content.get("intro_bullets", [])
+    intro_bullets_html = "\n      ".join(
+        f'<li style="margin-bottom:6px;">{_s(b)}</li>' for b in bullets
+    )
+
     return EMAIL_TEMPLATE.format(
         DATE=today,
-        INTRO=_s(content.get("intro", "")),
+        INTRO_BULLETS=intro_bullets_html,
         SECTIONS=sections_html,
         QUICK_LINKS=quick_links_html,
     )
